@@ -350,3 +350,4 @@ async def proxy(path: str, request: Request, user=Depends(get_verified_user)):
         raise HTTPException(
             status_code=r.status_code if r else 500, detail=error_detail
         )
+    
