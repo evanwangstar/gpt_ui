@@ -70,31 +70,30 @@ async def run_background_process(command):
     try:
         # Log the command to be executed
         log.info(f"Executing command: {command}")
-        # Execute the command and create a subprocess using subprocess.Popen
-        process = subprocess.Popen(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True
+        # Execute the command and create a subprocess
+        process = await asyncio.create_subprocess_exec(
+            *command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
         background_process = process
         log.info("Subprocess started successfully.")
 
         # Capture STDERR for debugging purposes
-        stderr_text = process.stderr.read().strip()
+        stderr_output = await process.stderr.read()
+        stderr_text = stderr_output.decode().strip()
         if stderr_text:
             log.info(f"Subprocess STDERR: {stderr_text}")
 
         # log.info output line by line
-        for line in process.stdout:
-            log.info(line.strip())
+        async for line in process.stdout:
+            log.info(line.decode().strip())
 
         # Wait for the process to finish
-        returncode = process.wait()
+        returncode = await process.wait()
         log.info(f"Subprocess exited with return code {returncode}")
     except Exception as e:
         log.error(f"Failed to start subprocess: {e}")
         raise  # Optionally re-raise the exception if you want it to propagate
+
 
 async def start_litellm_background():
     log.info("start_litellm_background")
