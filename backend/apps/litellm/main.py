@@ -75,7 +75,7 @@ async def run_background_process(command):
             command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            universal_newlines=True,
+            universal_newlines=True
         )
         background_process = process
         log.info("Subprocess started successfully.")
