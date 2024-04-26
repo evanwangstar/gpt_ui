@@ -298,7 +298,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Custom ignores
-backend/dev.sh
-backend/run_dev.sh
