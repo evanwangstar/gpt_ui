@@ -165,7 +165,8 @@ except:
 
 STATIC_DIR = str(Path(os.getenv("STATIC_DIR", "./static")).resolve())
 
-shutil.copyfile(f"{FRONTEND_BUILD_DIR}/favicon.png", f"{STATIC_DIR}/favicon.png")
+# shutil.copyfile(f"{FRONTEND_BUILD_DIR}/favicon.png", f"{STATIC_DIR}/favicon.png")
+# RIP favicon
 
 ####################################
 # CUSTOM_NAME
