@@ -96,6 +96,7 @@ async def run_background_process(command):
         log.error(f"Failed to start subprocess: {e}")
         raise  # Optionally re-raise the exception if you want it to propagate
 
+
 async def start_litellm_background():
     log.info("start_litellm_background")
     # Command to run in the background
@@ -350,4 +351,3 @@ async def proxy(path: str, request: Request, user=Depends(get_verified_user)):
         raise HTTPException(
             status_code=r.status_code if r else 500, detail=error_detail
         )
-    
