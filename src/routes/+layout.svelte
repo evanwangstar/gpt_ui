@@ -12,6 +12,7 @@
 	import 'tippy.js/dist/tippy.css';
 	import { WEBUI_BASE_URL } from '$lib/constants';
 	import i18n, { initI18n } from '$lib/i18n';
+	import Spinner from '$lib/components/common/Spinner.svelte';
 
 	setContext('i18n', i18n);
 
@@ -68,12 +69,25 @@
 	<title>{$WEBUI_NAME}</title>
 	<link rel="icon" href="{WEBUI_BASE_URL}/static/favicon.png" />
 
-	<link rel="stylesheet" type="text/css" href="/themes/rosepine.css" />
-	<link rel="stylesheet" type="text/css" href="/themes/rosepine-dawn.css" />
+	<!-- rosepine themes have been disabled as it's not up to date with our latest version. -->
+	<!-- feel free to make a PR to fix if anyone wants to see it return -->
+	<!-- <link rel="stylesheet" type="text/css" href="/themes/rosepine.css" />
+	<link rel="stylesheet" type="text/css" href="/themes/rosepine-dawn.css" /> -->
 </svelte:head>
 
 {#if loaded}
 	<slot />
+{:else}
+	<div class=" min-h-screen h-[100dvh] flex">
+		<div class="m-auto">
+			<img
+				src="/logo.svg"
+				alt="logo"
+				class=" size-24 rounded-full border-[1px] border-gray-200 dark:border-none mx-auto mb-8"
+				draggable="false"
+			/>
+		</div>
+	</div>
 {/if}
 
 <Toaster richColors position="top-center" />

@@ -71,6 +71,9 @@ except ImportError:
     log.warning("dotenv not installed, skipping...")
 
 WEBUI_NAME = os.environ.get("WEBUI_NAME", "Open WebUI")
+if WEBUI_NAME != "Open WebUI":
+    WEBUI_NAME += " (Open WebUI)"
+
 WEBUI_FAVICON_URL = "https://openwebui.com/favicon.png"
 
 ####################################
@@ -195,9 +198,6 @@ if CUSTOM_NAME:
     except Exception as e:
         log.exception(e)
         pass
-else:
-    if WEBUI_NAME != "Open WebUI":
-        WEBUI_NAME += " (Open WebUI)"
 
 
 ####################################
@@ -220,7 +220,7 @@ Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
 # Docs DIR
 ####################################
 
-DOCS_DIR = f"{DATA_DIR}/docs"
+DOCS_DIR = os.getenv("DOCS_DIR", f"{DATA_DIR}/docs")
 Path(DOCS_DIR).mkdir(parents=True, exist_ok=True)
 
 
@@ -375,8 +375,7 @@ USER_PERMISSIONS_CHAT_DELETION = (
 
 USER_PERMISSIONS = {"chat": {"deletion": USER_PERMISSIONS_CHAT_DELETION}}
 
-
-MODEL_FILTER_ENABLED = os.environ.get("MODEL_FILTER_ENABLED", "False").lower() == "true"
+ENABLE_MODEL_FILTER = os.environ.get("ENABLE_MODEL_FILTER", "False").lower() == "true"
 MODEL_FILTER_LIST = os.environ.get("MODEL_FILTER_LIST", "")
 MODEL_FILTER_LIST = [model.strip() for model in MODEL_FILTER_LIST.split(";")]
 
@@ -422,6 +421,10 @@ CHROMA_DATA_PATH = f"{DATA_DIR}/vector_db"
 
 RAG_TOP_K = int(os.environ.get("RAG_TOP_K", "5"))
 RAG_RELEVANCE_THRESHOLD = float(os.environ.get("RAG_RELEVANCE_THRESHOLD", "0.0"))
+
+ENABLE_RAG_HYBRID_SEARCH = (
+    os.environ.get("ENABLE_RAG_HYBRID_SEARCH", "").lower() == "true"
+)
 
 RAG_EMBEDDING_ENGINE = os.environ.get("RAG_EMBEDDING_ENGINE", "")
 
@@ -476,7 +479,7 @@ When answer to user:
 - If you don't know when you are not sure, ask for clarification.
 Avoid mentioning that you obtained the information from the context.
 And answer according to the language of the user's question.
-        
+
 Given the context information, answer the query.
 Query: [query]"""
 
@@ -523,6 +526,9 @@ AUDIO_OPENAI_API_KEY = os.getenv("AUDIO_OPENAI_API_KEY", OPENAI_API_KEY)
 ####################################
 # LiteLLM
 ####################################
+
+
+ENABLE_LITELLM = os.environ.get("ENABLE_LITELLM", "True").lower() == "true"
 
 LITELLM_PROXY_PORT = int(os.getenv("LITELLM_PROXY_PORT", "14365"))
 if LITELLM_PROXY_PORT < 0 or LITELLM_PROXY_PORT > 65535:
